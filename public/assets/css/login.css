@@ -1,0 +1,37 @@
+.logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.logo img {
+    width: 150px;
+    height: 150px;
+}
+.house-icon {
+    width: 100px;
+    height: 100px;
+    background-color: #030303;
+    position: relative;
+  }
+  
+  .roof {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 50px solid #dcdcdc;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .base {
+    width: 70px;
+    height: 50px;
+    background-color: #dcdcdc;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
