@@ -1,11 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+<link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
+
+                 <div class="login-container">
+                    <div class="logo">
+                        <img src="assets/images/logo.jpg" alt="Logo"></div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
