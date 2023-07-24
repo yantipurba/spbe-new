@@ -80,13 +80,15 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
-                            <label for="">File</label>
-                                    <input type="file" name="file" class="form-control @error('file') is-invalid @enderror">
-                                    @error('file')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                             </div>
+                            <label for="file">File</label>
+                            <div class="custom-file mb-3">
+                                <input type="file" class="form-control id="validatedCustomFile" name="file">
+                                <label  for="validatedCustomFile"></label>
+                                @error('file')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Create Request</button>
