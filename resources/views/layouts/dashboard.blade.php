@@ -36,7 +36,7 @@
                 <!-- Sidebar - Brand -->
                 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
                     <div class="sidebar-brand-icon">
-                        <img src="{{ asset('assets/images/pemprovsu-removebg-preview.png') }}" alt=""
+                        <img src="{{ asset('assets/images/logo.jpg') }}" alt=""
                             srcset="" style="max-height: 70px">
                     </div>
                     <div class="sidebar-brand-text mx-3">SKPD</div>
