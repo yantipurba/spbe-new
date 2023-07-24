@@ -24,6 +24,7 @@
                                 <th>File</th>
                                 <th>Tanggal dibuat</th>
                                 <th>Status</th>
+                                <th>Alasan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -49,6 +50,12 @@
                                             <span class="badge badge-pill badge-success">{{ $aplikasi->status }}</span>
                                         @endif
                                     </td>
+                                    <td>
+                                        @if ($aplikasi->status == 'menunggu')
+                                        @elseif ($aplikasi->status == 'ditolak')
+                                                {{$aplikasi->alasan}}
+                                        @elseif ($aplikasi->status == 'diterima')
+                                        @endif
                                     <td>
                                         @if ($aplikasi->status == 'menunggu')
                                             <a href="/aplikasi/setuju/{{ $aplikasi->id }}"
@@ -87,7 +94,6 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
@@ -101,8 +107,7 @@
                                             {{-- <a href="/aplikasi/ditolak/{{ $aplikasi->id }}"
                                                 class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark"></i></a> --}}
                                         @endif
-
-                                    </td>
+                                 </td>
                                 </tr>
                             @endforeach
                         </tbody>
