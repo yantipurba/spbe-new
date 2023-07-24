@@ -82,13 +82,11 @@
                                 @enderror
                             </div>
                             <label for="">File</label>
-                            <div class="custom-file mb-3">
-                                <input type="file" class="custom-file-input @error('file') is-invalid @enderror" id="validatedCustomFile" name="file">
-                                <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
-                                @error('file')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
+                                    <input type="file" name="file" class="form-control @error('file') is-invalid @enderror">
+                                    @error('file')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
                                 @enderror
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Update Request</button>
