@@ -49,11 +49,9 @@
                                     </td>
                                     <td>
                                         @if ($aplikasi->status == 'menunggu')
-                                            Masih Menunggu di Konfirmasi
                                         @elseif ($aplikasi->status == 'ditolak')
                                                 {{$aplikasi->alasan}}
                                         @elseif ($aplikasi->status == 'diterima')
-                                            Request diterima, silahkan ditunggu
                                         @endif
                                     </td>
                                     <td>
