@@ -10,7 +10,7 @@
 
                  <div class="login-container">
                     <div class="logo">
-                        <img src="assets/images/logo.png" alt="Logo"></div>
+                        <img src="assets/images/Provinsi Sumatera Utara.png" alt="Logo"></div>
 
 
                 <div class="card-body">
