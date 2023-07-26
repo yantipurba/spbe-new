@@ -11,7 +11,8 @@
                  <div class="login-container">
                     <div class="logo">
                         <img src="assets/images/logo.jpg" alt="Logo"></div>
-
+                        <h6><center><b>DINAS KOMUNIKASI DAN INFORMATIKA</h6></b>
+                        <h6><center><b>SUMATERA UTARA</h6></b></center>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
