@@ -236,23 +236,35 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                                    @if ($aduan->file_dokumen)
+                                        <p>File sebelumnya: 
+                                            <a href="{{ asset('assets/image/' . $aduan->file_dokumen) }}" target="_blank">{{ $aduan->file_dokumen }}</a>
+                                        </p>
+                                    @else
+                                        <p>No file chosen</p>
+                                    @endif
                             </div>
                             </div>
 
                             <div class="col-md-6">
                             <div class="form-group">
                                     <label for="">Upload Gambar Lokasi</label>
-                                    <input type="file" 
-                                    class="form-control @error('file_gambar') is-invalid @enderror"
+                                    <input type="file" class="form-control @error('file_gambar') is-invalid @enderror"
                                     id="file_gambar" name="file_gambar" value="{{ old('file_gambar', $aduan->file_gambar) }}">
                                     @error('file_gambar')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
-                                </div>
+                            @enderror 
+                                @if ($aduan->file_gambar)
+                                    <p>File sebelumnya: 
+                                    <a href="{{ asset('assets/image/' . $aduan->file_gambar) }}" target="_blank">{{ $aduan->file_gambar }}</a>
+                                        </p>
+                                @else
+                                        <p>No file chosen</p>
+                                @endif
                             </div>
-                        </div>
+                            </div>
                             <button type="submit" class="btn btn-primary btn-block">create request</button>
                         </form>
                     </div>
