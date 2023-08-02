@@ -181,29 +181,31 @@
                             </div>
 
                             <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="kota_atau_kabupaten">Kota atau Kabupaten</label>
-                                    <select class="form-control" id="kota_atau_kabupaten" name="kota_atau_kabupaten">
-                                    <option value="">Pilih Kota/Kabupaten</option> 
-                                    </select>
-                         
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="kota_atau_kabupaten">Kota atau Kabupaten</label>
+                                        <select class="form-control" id="kota_atau_kabupaten" name="kota_atau_kabupaten">
+                                            <option value="">Pilih Kota/Kabupaten</option>
+                                            <!-- Populate options for Kota/Kabupaten -->
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="kecamatan">Kecamatan</label>
-                                    <select class="form-control" id="kecamatan" name="kecamatan">
-                                        <option value="">Pilih Kecamatan</option>
-                                    </select>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="kecamatan">Kecamatan</label>
+                                        <select class="form-control" id="kecamatan" name="kecamatan">
+                                            <option value="">Pilih Kecamatan</option>
+                                            <!-- Populate options for Kecamatan -->
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="kelurahan">Kelurahan</label>
-                                    <select class="form-control" id="kelurahan" name="kelurahan">
-                                        <option value="">Pilih Kelurahan</option>
-                                    </select>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="kelurahan">Kelurahan</label>
+                                        <select class="form-control" id="kelurahan" name="kelurahan">
+                                            <option value="">Pilih Kelurahan</option>
+                                            <!-- Populate options for Kelurahan -->
+                                        </select>
                                     
                                 </div>
                             </div>
@@ -255,59 +257,57 @@
                         </form>
                     </div>
                 </div>
+
                 <script>
-        
-        function populateSelectOptions(selectId, data) {
+        // Function to populate the options in a select element
+        function populateSelectOptions(selectId, data, selectedValue = null) {
             const selectElement = document.getElementById(selectId);
             selectElement.innerHTML = '<option value="">Pilih</option>';
             data.forEach(item => {
                 const option = document.createElement('option');
                 option.value = item.id;
                 option.textContent = item.name;
+                if (item.id === selectedValue) {
+                    option.selected = true;
+                }
                 selectElement.appendChild(option);
             });
         }
-
-        
+        // Function to load location data and populate the select elements
         function loadLocationData() {
-            
+            // Fetch data for kota atau kabupaten
             fetch('https://kanglerian.github.io/api-wilayah-indonesia/api/regencies/12.json')
                 .then(response => response.json())
                 .then(regencies => {
-                    populateSelectOptions('kota_atau_kabupaten', regencies);
+                    // Get the selected value for kota atau kabupaten from the database
+                    const selectedRegencyId = '{{ old("kota_atau_kabupaten", $aduan->kota_atau_kabupaten) }}';
+                    populateSelectOptions('kota_atau_kabupaten', regencies, selectedRegencyId);
 
-                    
-                    document.getElementById('kota_atau_kabupaten').addEventListener('change', function() {
-                        const selectedRegencyId = this.value;
+                    // Fetch data for kecamatan based on the selected kota atau kabupaten
+                    fetch(`https://kanglerian.github.io/api-wilayah-indonesia/api/districts/${selectedRegencyId}.json`)
+                        .then(response => response.json())
+                        .then(districts => {
+                            // Get the selected value for kecamatan from the database
+                            const selectedDistrictId = '{{ old("kecamatan", $aduan->kecamatan) }}';
+                            populateSelectOptions('kecamatan', districts, selectedDistrictId);
 
-                        
-                        fetch(`https://kanglerian.github.io/api-wilayah-indonesia/api/districts/${selectedRegencyId}.json`)
-                            .then(response => response.json())
-                            .then(districts => {
-                                populateSelectOptions('kecamatan', districts);
-                            });
-                    });
-
-                
-                    document.getElementById('kecamatan').addEventListener('change', function() {
-                        const selectedDistrictId = this.value;
-
-                     
-                        fetch(`https://kanglerian.github.io/api-wilayah-indonesia/api/villages/${selectedDistrictId}.json`)
-                            .then(response => response.json())
-                            .then(villages => {
-                                populateSelectOptions('kelurahan', villages);
-                            });
-                    });
+                            // Fetch data for kelurahan based on the selected kecamatan
+                            fetch(`https://kanglerian.github.io/api-wilayah-indonesia/api/villages/${selectedDistrictId}.json`)
+                                .then(response => response.json())
+                                .then(villages => {
+                                    // Get the selected value for kelurahan from the database
+                                    const selectedVillageId = '{{ old("kelurahan", $aduan->kelurahan) }}';
+                                    populateSelectOptions('kelurahan', villages, selectedVillageId);
+                                });
+                        });
                 });
         }
 
-        
+        // Call the function when the page is fully loaded
         document.addEventListener("DOMContentLoaded", function () {
             loadLocationData();
         });
-    </script>
-                  
+    </script>   
             </div>
         </div>
     </div>
