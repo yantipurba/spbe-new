@@ -59,7 +59,7 @@ class AduanController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_perangkat_daerah => required',
+            'nama_perangkat_daerah' => 'required',
             'nip' => 'required',
             'nama' => 'required',
             'jabatan' => 'required',
@@ -75,19 +75,24 @@ class AduanController extends Controller
             'RW' => 'required',
             'permohonan_kecepatan_internet' => 'required',
             'file_dokumen' => 'required|mimes:pdf',
-            'file_gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'file_gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
           // Lakukan tindakan jika validasi berhasil
-          $product_image = $request->file('file_dokumen');
-          $product_image = $request->file('file_gambar');
-          $gambar = $product_image->getClientOriginalName();
+          $dokumen = $request->file('file_dokumen');
+          $dokumenFileName = $dokumen->getClientOriginalName();
           $tujuan_upload = './assets/image';
-          $product_image->move($tujuan_upload, $gambar);
+          $dokumen->move($tujuan_upload, $dokumen);
+
+           // Lakukan tindakan jika validasi berhasil
+           $gambar = $request->file('file_gambar');
+           $gambarFileName = $gambar->getClientOriginalName();
+           $tujuan_upload = './assets/image';
+           $gambar->move($tujuan_upload, $gambar);
 
         // dd(Auth::user()->id);
             $user_id = Auth::user()->id;
-            Aplikasi::create([
+            Aduan::create([
                 'user_id' => $user_id,
                 'nama_perangkat_daerah' => $request->nama_perangkat_daerah,
                 'nip' => $request->nip,
@@ -104,8 +109,8 @@ class AduanController extends Controller
                 'RT' => $request->RT,
                 'RW' => $request->RW,
                 'permohonan_kecepatan_internet' => $request->permohonan_kecepatan_internet,
-                'file_dokumen' => $gambar,
-                'file_dokumen' => $gambar,
+                'file_dokumen' => $dokumenFileName,
+                'file_gambar' => $gambarFileName,
                 'status' => 'menunggu',
                 'alasan' => 'null',
             ]);
@@ -145,7 +150,7 @@ class AduanController extends Controller
         public function update(Request $request, $id)
             {
             $validated = $request->validate([
-            'nama_perangkat_daerah => required',
+            'nama_perangkat_daerah' => 'required',
             'nip' => 'required',
             'nama' => 'required',
             'jabatan' => 'required',
@@ -160,43 +165,49 @@ class AduanController extends Controller
             'RT' => 'required',
             'RW' => 'required',
             'permohonan_kecepatan_internet' => 'required',
-            'file_dokumen' => 'required|mimes:pdf',
-            'file_gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'file_dokumen' => 'nullable|mimes:pdf',
+            'file_gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Lakukan tindakan jika validasi berhasil
-        $product_image = $request->file('file_dokumen');
-        $product_image = $request->file('file_gambar');
-        $gambar = $product_image->getClientOriginalName();
-        $tujuan_upload = './assets/image';
-        $product_image->move($tujuan_upload, $gambar);
-        
+         
         // dd(Auth::user()->id);
-         $user_id = Auth::user()->id;
-         Aplikasi::create([
-             'user_id' => $user_id,
-             'nama_perangkat_daerah' => $request->nama_perangkat_daerah,
-             'nip' => $request->nip,
-             'nama' => $request->nama,
-             'jabatan' => $request->jabatan,
-             'no_telp' => $request->no_telp,
-             'email' => $request->email,
-             'nama_lokasi' => $request->nama_lokasi,
-             'kondisi_lokasi' => $request->kondisi_lokasi,
-             'alamat' => $request->alamat,
-             'kota_atau_kabupaten' => $request->kota_atau_kabupaten,
-             'kecamatan' => $request->kecamatan,
-             'kelurahan' => $request->kelurahan,
-             'RT' => $request->RT,
-             'RW' => $request->RW,
-             'permohonan_kecepatan_internet' => $request->permohonan_kecepatan_internet,
-             'file_dokumen' => $gambar,
-             'file_dokumen' => $gambar,
-             'status' => 'menunggu',
-             'alasan' => 'null',
-         ]);
+        $user_id = Auth::user()->id;
+        $aduan = Aduan::where('id', $id)->first();
+        $aduan->update([
+            'user_id' => $user_id,
+            'nama_perangkat_daerah' => $request->nama_perangkat_daerah,
+            'nip' => $request->nip,
+            'nama' => $request->nama,
+            'jabatan' => $request->jabatan,
+            'no_telp' => $request->no_telp,
+            'email' => $request->email,
+            'nama_lokasi' => $request->nama_lokasi,
+            'kondisi_lokasi' => $request->kondisi_lokasi,
+            'alamat' => $request->alamat,
+            'kota_atau_kabupaten' => $request->kota_atau_kabupaten,
+            'kecamatan' => $request->kecamatan,
+            'kelurahan' => $request->kelurahan,
+            'RT' => $request->RT,
+            'RW' => $request->RW,
+            'permohonan_kecepatan_internet' => $request->permohonan_kecepatan_internet,
+            'status' => 'menunggu',
+            'alasan' => 'null',
+        ]);
+
+        if ($request->has('file_dokumen')) {
+            // Lakukan tindakan jika validasi berhasil
+            $product_image = $request->file('file_dokumen');
+            $gambar = $product_image->getClientOriginalName();
+            $tujuan_upload = './assets/image';
+            $product_image->move($tujuan_upload, $gambar);
+
+            $aduan->update([
+            'file_dokumen' => $gambar,
+            ]);
+        }
+       
         
-         return redirect('/aduan');
+         return redirect('aduan');
     }
         
     /**
