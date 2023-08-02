@@ -80,15 +80,23 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
-                            <label for="">File</label>
-                                    <input type="file" name="file" class="form-control @error('file') is-invalid @enderror">
-                                    @error('file')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                        </div>
+                            <div class="form-group">
+                            <label for="file">File</label>
+                            <input type="file" name="file" class="form-control @error('file') is-invalid @enderror">
+                            @error('file')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                            @if ($aplikasi->file)
+                                <p>File sebelumnya: 
+                                    <a href="{{ asset('assets/image/' . $aplikasi->file) }}" target="_blank">{{ $aplikasi->file }}</a>
+                                </p>
+                            @else
+                                <p>No file chosen</p>
+                            @endif
+                        </div>
                             <button type="submit" class="btn btn-primary btn-block">Update Request</button>
                         </form>
                     </div>
